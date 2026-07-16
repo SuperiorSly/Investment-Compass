@@ -1,8 +1,6 @@
-# Smart Cane Survey
+# Investment Compass
 
-A single-page survey for the "Smart Attachment for Canes" idea — 15 tap-to-answer
-questions plus optional email and phone fields, built with React, TypeScript, and Vite.
-On submit, it posts the answers as JSON to an n8n webhook.
+Investment compass is a SaaS platform that connects Iraqi investors with entrepreneurs and project owners seeking investment. The platform provides verified financial information, AI-powered analytics, secure communication tools, and project performance tracking, enabling investors to evaluate opportunities with confidence while helping entrepreneurs access suitable investors efficiently.
 
 ## 1. Install
 
@@ -20,7 +18,7 @@ npm install
    ```
 3. Fill in the values in `.env`:
    ```
-   VITE_N8N_WEBHOOK_URL=https://your-n8n-instance.com/webhook/smart-cane-survey
+   VITE_N8N_WEBHOOK_URL=https://your-n8n-instance.com/webhook/investment-compass
    VITE_N8N_WEBHOOK_TOKEN=      # only if your webhook uses Header Auth
    ```
 4. Restart the dev server after editing `.env` — Vite only reads env files on startup.

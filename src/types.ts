@@ -7,7 +7,7 @@ export interface SurveyQuestion {
   id: string
   number: number
   prompt: string
-  type?: 'radio' | 'text'
+  type?: 'radio' | 'text' | 'checkbox'
   required?: boolean
   options?: QuestionOption[]
 }

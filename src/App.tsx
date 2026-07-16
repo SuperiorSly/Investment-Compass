@@ -122,7 +122,7 @@ function App() {
     <div className="page">
       <div className="sticky-bar">
         <div className="sticky-inner">
-          <span className="brand">استبيان ملحق العصا الذكي</span>
+          <span className="brand">بوصلة الاستثمار</span>
           <div className="tap-path" aria-hidden="true">
             {requiredQuestions.map((q) => (
               <span
@@ -139,24 +139,23 @@ function App() {
 
       <main>
         <header className="hero">
-          <p className="eyebrow">استبيان سريع · ١٣ نقرة فقط ✨</p>
-          <h1>ساعدنا نصنع ملحقاً ذكياً يغيّر حياتك.</h1>
+          <p className="eyebrow">استبيان سريع ✨</p>
+          <h1>شاركنا رأيك في منصة بوصلة الاستثمار.</h1>
           <p className="hero-sub">
-            نحتاج إلى رأيك لتصميم أفضل تجربة ممكنة. الاستبيان سهل جداً — كل إجابة بنقرة واحدة ولا توجد حاجة للكتابة!
+            نحتاج إلى رأيك لتصميم أفضل تجربة لربط المستثمرين بأصحاب المشاريع. الاستبيان سهل جداً ولن يأخذ من وقتك الكثير!
           </p>
         </header>
 
         <section className="project-overview">
           <h2>نبذة عن المشروع 🚀</h2>
           <p>
-            نحن نعمل على تطوير <strong>ملحق ذكي مبتكر</strong> يُركّب بسهولة على أي عصا تقليدية ليحوّلها إلى أداة تنقل متطورة، بدلاً من استبدال العصا بالكامل.
-            يهدف هذا الملحق إلى تعزيز استقلالية وأمان المكفوفين وضعاف البصر بأسعار في متناول الجميع، ويقدم ميزات مثل:
+            بوصلة الاستثمار هي منصة (SaaS) تربط بين المستثمرين العراقيين ورواد الأعمال وأصحاب المشاريع الباحثين عن استثمار. توفر المنصة:
           </p>
           <ul>
-            <li><strong>كشف العوائق:</strong> مستشعرات ذكية لتنبيهك تلقائياً قبل الاصطدام.</li>
-            <li><strong>مشاركة الموقع:</strong> نظام GPS لإرسال موقعك المباشر للعائلة لزيادة الاطمئنان.</li>
-            <li><strong>زر الطوارئ:</strong> زر (SOS) مدمج لطلب المساعدة الفورية بلمسة واحدة.</li>
-            <li><strong>سهولة التركيب:</strong> تصميم يركب على عصاك الحالية بدون أي أدوات معقدة.</li>
+            <li><strong>معلومات مالية موثوقة:</strong> بيانات مدققة لمساعدتك في اتخاذ قراراتك.</li>
+            <li><strong>تحليلات مدعومة بالذكاء الاصطناعي:</strong> لتقييم الفرص والمخاطر.</li>
+            <li><strong>أدوات تواصل آمنة:</strong> لضمان الخصوصية والشفافية.</li>
+            <li><strong>تتبع أداء المشاريع:</strong> لمتابعة استثماراتك بكل ثقة.</li>
           </ul>
         </section>
 
@@ -190,18 +189,34 @@ function App() {
                   ) : (
                     <div className="option-group">
                       {q.options?.map((opt) => {
-                        const selected = answers[q.id] === opt.value
+                        const isCheckbox = q.type === 'checkbox'
+                        const selected = isCheckbox 
+                          ? answers[q.id]?.split(',').includes(opt.value)
+                          : answers[q.id] === opt.value
+
                         return (
                           <label
                             key={opt.value}
                             className={`option-pill${selected ? ' is-selected' : ''}`}
                           >
                             <input
-                              type="radio"
+                              type={isCheckbox ? 'checkbox' : 'radio'}
                               name={q.id}
                               value={opt.value}
-                              checked={selected}
-                              onChange={() => handleAnswer(q.id, opt.value)}
+                              checked={selected || false}
+                              onChange={(e) => {
+                                if (isCheckbox) {
+                                  const current = answers[q.id] ? answers[q.id].split(',') : []
+                                  if (e.target.checked) {
+                                    handleAnswer(q.id, [...current, opt.value].join(','))
+                                  } else {
+                                    const next = current.filter((v) => v !== opt.value)
+                                    handleAnswer(q.id, next.join(','))
+                                  }
+                                } else {
+                                  handleAnswer(q.id, opt.value)
+                                }
+                              }}
                             />
                             <span>{opt.label}</span>
                           </label>
